@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee Details{% endblock %}
+
+{% block body %}
+<style>
+    .Photo {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 50%;
+    }
+</style>
+
+    <h1>{{ employee.firstname }} {{ employee.lastname }}</h1>
+    {% if employee.Photo %}
+        <img src="{{ asset(employee.Photo) }}" alt="{{ employee.firstname }} {{ employee.lastname }}" class="Photo">
+    {% endif %}
+    <p>Position: {{ employee.positions|map(item => item.label)|join(', ') }}</p>
+    <p>Age: {{ employee.age }}</p>
+    <p>Adresse: {{ employee.adresse }}</p>
+    <p>Tel: {{ employee.tel }}</p>
+    <p>Mail: {{ employee.mail }}</p>
+    <p>CV: <a href="{{ asset(employee.cv) }}" target="_blank">Voir le CV</a></p>
+{% endblock %}

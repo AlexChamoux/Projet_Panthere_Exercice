@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .organigram li img { width: 50px; height: 50px; margin-right: 10px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Accueil</h1>
+    <p>{{ message }}</p>
+</div>
+<div class="example-wrapper">
+    {{ dump() }}
+</div>
+<div class="example-wrapper">
+    <div class="organigram">
+        <ul>
+            {% for employeeData in organigram %}
+                {{ _self.renderEmployee(employeeData) }}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% macro renderEmployee(employeeData) %}
+    <li>
+        {% if employeeData.photo %}
+            <img src="{{ employeeData.photo }}" alt="{{ employeeData.firstname }} {{ employeeData.lastname }}">
+        {% endif %}
+        
+        <a href="{{ path('employee_details', {'id':employeeData.id})}}">{{ employeeData.firstname }} {{ employeeData.lastname }}</a> 
+        ({{ employeeData.positions | join(', ') }})
+
+        {% if employeeData.subordinates is not empty %}
+            <ul>
+                {% for subordinate in employeeData.subordinates %}
+                    {{ _self.renderEmployee(subordinate) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+{% endblock %}
